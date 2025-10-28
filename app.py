@@ -93,7 +93,7 @@ def gallery():
 
 
 # --- Health Check ---
-@app.get("/health")
+@app.get("/api/v1/health")
 def health():
     return "OK", 200
 
