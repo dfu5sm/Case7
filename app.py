@@ -110,18 +110,15 @@ def gallery():
     except Exception as e:
         return jsonify(ok=False, error=str(e)), 500
 
-# --- Health Check ---
-@app.route("/api/v1/health", methods=["GET"], strict_slashes=False)
-@app.get("/api/v1/health")
-def health():
-    return jsonify({"status": "ok"}), 200
 # --- Health Check (accepts with/without trailing slash) ---
 @app.route("/api/v1/health", methods=["GET"], strict_slashes=False)
 def health():
+    """Health check endpoint that verifies Azure Blob Storage connectivity."""
     if not cc:
         return jsonify(status="UNHEALTHY", message="Storage client not initialized"), 503
     try:
-        cc.get_container_properties()  # cheap connectivity check
+        # Try to get container properties to verify Azure connection
+        cc.get_container_properties()
         return jsonify(status="OK", message="Azure Storage connection successful"), 200
     except Exception as e:
         return jsonify(status="DEGRADED", message=f"Storage connection failed: {e}"), 503
