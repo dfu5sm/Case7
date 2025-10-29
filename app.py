@@ -93,10 +93,9 @@ def gallery():
 
 
 # --- Health Check ---
-@app.get("/api/v1/health")
+@app.route("/api/v1/health", methods=["GET"], strict_slashes=False)
 def health():
-    return "OK", 200
-
+    return jsonify({"status": "ok"}), 200
 
 # --- Entry point ---
 if __name__ == "__main__":
